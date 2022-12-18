@@ -15,11 +15,21 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.File;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.jar.Manifest;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class App extends Application {
     @Override
@@ -79,18 +89,31 @@ public class App extends Application {
         primaryStage.setHeight( 768  );
         primaryStage.show();
 
-
+        loadAll().forEach(Plugin::print);
     }
 
     public static void main(String[] args) {
         Application.launch(App.class, args);
     }
 
-    public Plugin load(String fileName) {
-        if (!fileName.endsWith(".jar")){
+    public List<Plugin> loadAll() {
+        String path = App.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String decodedPath = URLDecoder.decode(path, StandardCharsets.UTF_8)
+                .replaceAll(new File(path).getName(), "/plugins");
+
+        File folder = new File(decodedPath);
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(files).map(file -> load(file.toString())).collect(Collectors.toList());
+    }
+
+    public Plugin load(String filePath) {
+        if (!filePath.endsWith(".jar")){
             throw new IllegalArgumentException("File is not a jar");
         }
-        File file = new File(fileName);
+        File file = new File(filePath);
         URL url;
         try {
             url = file.toURI().toURL();
