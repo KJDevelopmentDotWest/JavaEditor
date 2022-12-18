@@ -15,6 +15,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.jar.Manifest;
+
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -72,9 +78,40 @@ public class App extends Application {
         primaryStage.setWidth( 1366 );
         primaryStage.setHeight( 768  );
         primaryStage.show();
+
+
     }
 
     public static void main(String[] args) {
         Application.launch(App.class, args);
+    }
+
+    public Plugin load(String fileName) {
+        if (!fileName.endsWith(".jar")){
+            throw new IllegalArgumentException("File is not a jar");
+        }
+        File file = new File(fileName);
+        URL url;
+        try {
+            url = file.toURI().toURL();
+        } catch (MalformedURLException e){
+            throw new IllegalArgumentException(e);
+        }
+
+        ClassLoader pluginClassLoader = Plugin.class.getClassLoader();
+        try(URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url}, pluginClassLoader)){
+            Manifest manifest = new Manifest(urlClassLoader.findResource("META-INF/MANIFEST.MF").openStream());
+            String mainClassName = manifest.getMainAttributes().getValue("Main-Class").replaceAll(".java", "").replaceAll("/", ".");
+            Class<?> loadedClass = urlClassLoader.loadClass(mainClassName);
+            return (Plugin) loadedClass.getDeclaredConstructor().newInstance();
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("File is not found, Manifest is not found or Manifest does not contain Main-Class attribute");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Main-Class attribute is invalid");
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Main class is not a Plugin");
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
     }
 }
