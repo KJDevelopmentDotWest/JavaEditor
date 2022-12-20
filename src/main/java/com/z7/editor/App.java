@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -36,8 +37,13 @@ public class App extends Application {
         var grid = createGrid();
         var tools = createTools();
 
+        var figureSelectionContainer = new VBox();
+
         var figureSelection = new ChoiceBox<Pair<String, Tool>>();
+        figureSelectionContainer.getChildren().add(figureSelection);
+
         figureSelection.setMinWidth(120);
+
         GridPane.setHalignment(figureSelection, HPos.CENTER);
 
         figureSelection.setConverter(new StringConverter<>() {
@@ -52,21 +58,22 @@ public class App extends Application {
             }
         });
 
+        figureSelection.setOnAction((e) -> {
+            controller.setSelectedTool(figureSelection.getValue().getValue());
+        });
+
         figureSelection.getItems().addAll(tools);
         figureSelection.setValue(tools.get(0));
+
+        var drawingButton = new Button("Create");
+        figureSelectionContainer.getChildren().add(drawingButton);
 
         var toolPalette = new HBox();
         GridPane.setVgrow(toolPalette, Priority.ALWAYS);
 
         var canvas = new Pane();
-        var rect = new Rectangle(40, 50, 30, 30);
-        rect.setFill(Color.GREEN);
 
-        var circle = new Circle(100, 100, 10, Color.PINK);
-
-        canvas.getChildren().addAll(rect, circle);
-
-        grid.add(figureSelection, 0, 0);
+        grid.add(figureSelectionContainer, 0, 0);
         grid.add(toolPalette, 1, 0);
         grid.add(canvas, 0, 1, 2, 1);
 
@@ -101,7 +108,7 @@ public class App extends Application {
         var secondColumn = new ColumnConstraints();
         secondColumn.setPercentWidth(90);
 
-        var firstRowConstrains = new RowConstraints(50);
+        var firstRowConstrains = new RowConstraints(60);
 
         var secondRowConstrains = new RowConstraints();
         secondRowConstrains.setVgrow(Priority.ALWAYS);
