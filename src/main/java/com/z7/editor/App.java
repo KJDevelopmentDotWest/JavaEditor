@@ -72,6 +72,7 @@ public class App extends Application {
         GridPane.setVgrow(toolPalette, Priority.ALWAYS);
 
         var canvas = new Pane();
+        controller.setCanvas(canvas);
 
         grid.add(figureSelectionContainer, 0, 0);
         grid.add(toolPalette, 1, 0);
