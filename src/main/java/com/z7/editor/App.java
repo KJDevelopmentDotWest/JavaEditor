@@ -2,10 +2,15 @@ package com.z7.editor;
 
 
 import com.whatever.editor.api.Plugin;
+import com.z7.editor.tools.CircleTool;
+import com.z7.editor.tools.RectangleTool;
+import com.z7.editor.tools.Tool;
+import com.z7.editor.tools.TriangleTool;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -21,63 +27,59 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
+        var controller = new AppController();
+        var grid = createGrid();
+        var tools = createTools();
 
-        GridPane gp = new GridPane();
+        var figureSelectionContainer = new VBox();
 
-        gp.setPadding( new Insets(10) );
+        var figureSelection = new ChoiceBox<Pair<String, Tool>>();
+        figureSelectionContainer.getChildren().add(figureSelection);
 
-        gp.setHgap( 4 );
-        gp.setVgap( 4 );
-
-        gp.setGridLinesVisible(true);
-
-        var firstColumn = new ColumnConstraints();
-        var secondColumn = new ColumnConstraints();
-        firstColumn.setPercentWidth(10);
-        secondColumn.setPercentWidth(90);
-
-        gp.getColumnConstraints().addAll(firstColumn, secondColumn);
-
-        gp.getRowConstraints().add(new RowConstraints(50));
-
-        var secondRowConstrains = new RowConstraints();
-        secondRowConstrains.setVgrow(Priority.ALWAYS);
-
-        gp.getRowConstraints().add(secondRowConstrains);
-        VBox.setVgrow(gp, Priority.ALWAYS);
-
-        var figureSelection = new ChoiceBox<Pair<String, String>>();
         figureSelection.setMinWidth(120);
+
         GridPane.setHalignment(figureSelection, HPos.CENTER);
 
+        figureSelection.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Pair<String, Tool> object) {
+                return object.getKey();
+            }
+
+            @Override
+            public Pair<String, Tool> fromString(String string) {
+                return null;
+            }
+        });
+
+        figureSelection.setOnAction((e) -> {
+            controller.setSelectedTool(figureSelection.getValue().getValue());
+        });
+
+        figureSelection.getItems().addAll(tools);
+        figureSelection.setValue(tools.get(0));
+
+        var drawingButton = new Button("Create");
+        figureSelectionContainer.getChildren().add(drawingButton);
 
         var toolPalette = new HBox();
         GridPane.setVgrow(toolPalette, Priority.ALWAYS);
 
-        toolPalette.getChildren().add(new Text("Tool Paletter"));
+        var canvas = new Pane();
+        controller.setCanvas(canvas);
 
-        var canvasContainer = new Pane();
-        var rect = new Rectangle(40, 50, 30, 30);
-        rect.setFill(Color.GREEN);
+        grid.add(figureSelectionContainer, 0, 0);
+        grid.add(toolPalette, 1, 0);
+        grid.add(canvas, 0, 1, 2, 1);
 
-        var circle = new Circle(100, 100, 300, Color.PINK);
-
-        canvasContainer.getChildren().addAll(rect, circle);
-        canvasContainer.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
-
-        gp.add(figureSelection, 0, 0);
-        gp.add(toolPalette, 1, 0);
-        gp.add(canvasContainer, 0, 1, 2, 1);
-        Scene scene = new Scene(gp);
+        Scene scene = new Scene(grid);
 
         primaryStage.setTitle("Grid Pane App");
         primaryStage.setScene(scene);
@@ -90,6 +92,46 @@ public class App extends Application {
 
     public static void main(String[] args) {
         Application.launch(App.class, args);
+    }
+
+    private static GridPane createGrid() {
+        GridPane grid = new GridPane();
+
+        grid.setPadding( new Insets(10) );
+
+        grid.setHgap( 4 );
+        grid.setVgap( 4 );
+
+        grid.setGridLinesVisible(true);
+
+        var firstColumn = new ColumnConstraints();
+        firstColumn.setPercentWidth(10);
+
+        var secondColumn = new ColumnConstraints();
+        secondColumn.setPercentWidth(90);
+
+        var firstRowConstrains = new RowConstraints(60);
+
+        var secondRowConstrains = new RowConstraints();
+        secondRowConstrains.setVgrow(Priority.ALWAYS);
+
+        grid.getColumnConstraints().addAll(firstColumn, secondColumn);
+        grid.getRowConstraints().add(firstRowConstrains);
+        grid.getRowConstraints().add(secondRowConstrains);
+
+        VBox.setVgrow(grid, Priority.ALWAYS);
+
+        return grid;
+    }
+
+    private static List<Pair<String, Tool>> createTools() {
+        var tools = new ArrayList<Pair<String, Tool>>();
+
+        tools.add(new Pair<>("Circle", new CircleTool()));
+        tools.add(new Pair<>("Rectangle", new RectangleTool()));
+        tools.add(new Pair<>("Triangle", new TriangleTool()));
+
+        return tools;
     }
 
     public List<Plugin> loadAll() {
