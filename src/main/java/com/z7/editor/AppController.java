@@ -23,4 +23,8 @@ public class AppController {
     public void setCanvas(Pane canvas) {
         this.canvas = canvas;
     }
+
+    public void drawShape() {
+        
+    }
 }
