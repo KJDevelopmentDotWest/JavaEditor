@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class TriangleTool extends AbstractTool {
+public class TriangleTool extends AbstractTool<Triangle> {
     private final TriangleDrawer drawer = new TriangleDrawer();
 
     @Override
@@ -23,6 +23,11 @@ public class TriangleTool extends AbstractTool {
     @Override
     public Drawer<Triangle> getDrawer() {
         return drawer;
+    }
+
+    @Override
+    public Triangle createFigure() {
+        return null;
     }
 
     private static class TriangleSidesProperties extends AbstractProperty {

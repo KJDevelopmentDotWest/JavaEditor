@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class CircleTool extends AbstractTool {
+public class CircleTool extends AbstractTool<Circle> {
     private final CircleDrawer drawer = new CircleDrawer();
 
     @Override
@@ -23,6 +23,11 @@ public class CircleTool extends AbstractTool {
     @Override
     public Drawer<Circle> getDrawer() {
         return drawer;
+    }
+
+    @Override
+    public Circle createFigure() {
+        return new Circle();
     }
 
     private static class RadiusProperty extends AbstractProperty {

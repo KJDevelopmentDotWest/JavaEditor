@@ -33,7 +33,6 @@ public class App extends Application {
         var controller = new AppController();
         var grid = createGrid();
         var tools = createTools();
-
         var figureSelectionContainer = new VBox();
 
         var figureSelection = new ChoiceBox<Pair<String, Tool>>();
