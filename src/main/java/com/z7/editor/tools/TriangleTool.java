@@ -7,10 +7,13 @@ import com.z7.editor.properties.Property;
 import com.z7.shapes.Triangle;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Shape;
 
 import java.util.List;
 
 public class TriangleTool extends AbstractTool<Triangle> {
+    private final parameters = new TriangleParameters();
+
     private final TriangleDrawer drawer = new TriangleDrawer();
 
     @Override
@@ -27,6 +30,11 @@ public class TriangleTool extends AbstractTool<Triangle> {
 
     @Override
     public Triangle createFigure() {
+        return null;
+    }
+
+    @Override
+    public Shape createShape() {
         return null;
     }
 

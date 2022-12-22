@@ -27,15 +27,8 @@ public class AppController {
         this.canvas = canvas;
     }
 
-    public <T extends Figure> void drawShape() {
-        Tool<T> tool = selectedTool;
-        Drawer<T> drawer = selectedTool.getDrawer();
-
-        tool.getProperties();
-
-        T figure = tool.createFigure();
-
-        var shape = drawer.getShape(figure);
+    public void drawShape() {
+        var shape = selectedTool.createShape();
 
         canvas.getChildren().add(shape);
     }
