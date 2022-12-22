@@ -13,10 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
@@ -37,7 +33,6 @@ public class App extends Application {
         var controller = new AppController();
         var grid = createGrid();
         var tools = createTools();
-
         var figureSelectionContainer = new VBox();
 
         var figureSelection = new ChoiceBox<Pair<String, Tool>>();
@@ -68,6 +63,10 @@ public class App extends Application {
 
         var drawingButton = new Button("Create");
         figureSelectionContainer.getChildren().add(drawingButton);
+
+        drawingButton.setOnAction((e) -> {
+            controller.drawShape();
+        });
 
         var toolPalette = new HBox();
         GridPane.setVgrow(toolPalette, Priority.ALWAYS);
