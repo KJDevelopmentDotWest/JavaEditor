@@ -4,9 +4,11 @@ import com.z7.editor.properties.Property;
 import com.z7.editor.tools.Tool;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class AppController {
@@ -15,6 +17,8 @@ public class AppController {
     private Pane canvas = null;
 
     private Pane propertiesPane;
+
+    private Shape selectedShape;
 
     public Tool getSelectedTool() {
         return selectedTool;
@@ -47,7 +51,8 @@ public class AppController {
         shape.setFill(Color.RED);
         shape.setStrokeType(StrokeType.OUTSIDE);
         shape.setStroke(Color.GREEN);
-        shape.setStrokeWidth(5);
+
+        shape.setOnMouseClicked((e) -> selectShape(shape));
 
         List<Property> properties = selectedTool.getProperties();
         properties.stream().forEach((p) -> p.apply(shape));
@@ -60,5 +65,13 @@ public class AppController {
 
     public void setPropertiesPane(Pane propertiesPanel) {
         this.propertiesPane = propertiesPanel;
+    }
+
+    public void selectShape(Shape shape) {
+        if (!Objects.isNull(selectedShape)) {
+            selectedShape.setStrokeWidth(0);
+        }
+        selectedShape = shape;
+        selectedShape.setStrokeWidth(5);
     }
 }
