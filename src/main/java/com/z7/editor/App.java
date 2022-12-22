@@ -35,7 +35,7 @@ public class App extends Application {
         var tools = createTools();
         var figureSelectionContainer = new VBox();
 
-        var figureSelection = new ChoiceBox<Pair<String, Tool>>();
+        var figureSelection = new ChoiceBox<Pair<String, Tool<?>>>();
         figureSelectionContainer.getChildren().add(figureSelection);
 
         figureSelection.setMinWidth(120);
@@ -44,12 +44,12 @@ public class App extends Application {
 
         figureSelection.setConverter(new StringConverter<>() {
             @Override
-            public String toString(Pair<String, Tool> object) {
+            public String toString(Pair<String, Tool<?>> object) {
                 return object.getKey();
             }
 
             @Override
-            public Pair<String, Tool> fromString(String string) {
+            public Pair<String, Tool<?>> fromString(String string) {
                 return null;
             }
         });
@@ -123,8 +123,8 @@ public class App extends Application {
         return grid;
     }
 
-    private static List<Pair<String, Tool>> createTools() {
-        var tools = new ArrayList<Pair<String, Tool>>();
+    private static List<Pair<String, Tool<?>>> createTools() {
+        var tools = new ArrayList<Pair<String, Tool<?>>>();
 
         tools.add(new Pair<>("Circle", new CircleTool()));
         tools.add(new Pair<>("Rectangle", new RectangleTool()));
