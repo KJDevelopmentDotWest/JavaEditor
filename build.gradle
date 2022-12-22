@@ -13,9 +13,11 @@ repositories {
     flatDir {
         dirs 'src/main/resources/libs'
     }
-//    flatDir {
-//        dirs 'libs'
-//    }
+}
+
+application {
+    mainModule = 'com.z7.editor'
+    mainClass = 'com.z7.editor.App'
 }
 
 dependencies {
