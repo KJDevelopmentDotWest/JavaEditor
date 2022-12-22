@@ -1,6 +1,6 @@
 package com.z7.shapes;
 
-public class Triangle extends AbstractFigure {
+public class TriangleFigure extends AbstractFigure {
     private double sideA;
 
     private double sideB;

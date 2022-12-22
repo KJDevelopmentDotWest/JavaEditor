@@ -17,13 +17,15 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 
-import java.io.*;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
@@ -33,7 +35,9 @@ public class App extends Application {
         var controller = new AppController();
         var grid = createGrid();
         var tools = createTools();
+        var propertiesPane = new HBox();
         var figureSelectionContainer = new VBox();
+        controller.setPropertiesPane(propertiesPane);
 
         var figureSelection = new ChoiceBox<Pair<String, Tool<?>>>();
         figureSelectionContainer.getChildren().add(figureSelection);
@@ -68,14 +72,14 @@ public class App extends Application {
             controller.drawShape();
         });
 
-        var toolPalette = new HBox();
-        GridPane.setVgrow(toolPalette, Priority.ALWAYS);
+
+        GridPane.setVgrow(propertiesPane, Priority.ALWAYS);
 
         var canvas = new Pane();
         controller.setCanvas(canvas);
 
         grid.add(figureSelectionContainer, 0, 0);
-        grid.add(toolPalette, 1, 0);
+        grid.add(propertiesPane, 1, 0);
         grid.add(canvas, 0, 1, 2, 1);
 
         Scene scene = new Scene(grid);

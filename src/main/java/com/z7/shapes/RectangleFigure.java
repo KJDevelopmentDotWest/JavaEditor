@@ -1,6 +1,6 @@
 package com.z7.shapes;
 
-public class Rectangle extends AbstractFigure {
+public class RectangleFigure extends AbstractFigure {
     private double width;
 
     private double height;
