@@ -30,6 +30,17 @@ import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public class App extends Application {
+
+    private static ArrayList<Pair<String, Tool<?>>> availableTools;
+
+    static {
+        availableTools = new ArrayList<Pair<String, Tool<?>>>();
+
+        availableTools.add(new Pair<>("Circle", new CircleTool()));
+        availableTools.add(new Pair<>("Rectangle", new RectangleTool()));
+        availableTools.add(new Pair<>("Triangle", new TriangleTool()));
+    }
+
     @Override
     public void start(Stage primaryStage) {
         var controller = new AppController();
@@ -45,6 +56,11 @@ public class App extends Application {
         figureSelection.setMinWidth(120);
 
         GridPane.setHalignment(figureSelection, HPos.CENTER);
+
+        controller.setOnToolChanged((tool) -> {
+            var variant =  availableTools.stream().filter((p) -> p.getValue() == tool).findFirst();
+            figureSelection.setValue(variant.get());
+        });
 
         figureSelection.setConverter(new StringConverter<>() {
             @Override
@@ -65,13 +81,16 @@ public class App extends Application {
         figureSelection.getItems().addAll(tools);
         figureSelection.setValue(tools.get(0));
 
+
         var drawingButton = new Button("Create");
-        figureSelectionContainer.getChildren().add(drawingButton);
+        var updatePropertiesButton = new Button("Update");
+        figureSelectionContainer.getChildren().add(new HBox(drawingButton, updatePropertiesButton));
+
+        updatePropertiesButton.setOnAction(e -> controller.updateProperitesOfSelectedShape());
 
         drawingButton.setOnAction((e) -> {
             controller.drawShape();
         });
-
 
         GridPane.setVgrow(propertiesPane, Priority.ALWAYS);
 
@@ -128,13 +147,7 @@ public class App extends Application {
     }
 
     private static List<Pair<String, Tool<?>>> createTools() {
-        var tools = new ArrayList<Pair<String, Tool<?>>>();
-
-        tools.add(new Pair<>("Circle", new CircleTool()));
-        tools.add(new Pair<>("Rectangle", new RectangleTool()));
-        tools.add(new Pair<>("Triangle", new TriangleTool()));
-
-        return tools;
+        return availableTools;
     }
 
     public List<Plugin> loadAll() {

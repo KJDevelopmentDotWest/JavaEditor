@@ -2,6 +2,8 @@ package com.z7.editor;
 
 import com.z7.editor.properties.Property;
 import com.z7.editor.tools.Tool;
+import javafx.event.EventDispatcher;
+import javafx.event.EventTarget;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -9,6 +11,8 @@ import javafx.scene.shape.StrokeType;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AppController {
@@ -20,9 +24,7 @@ public class AppController {
 
     private Shape selectedShape;
 
-    public Tool getSelectedTool() {
-        return selectedTool;
-    }
+    private Consumer<Tool> selectedToolChangingHandler;
 
     public void setSelectedTool(Tool selectedTool) {
         this.selectedTool = selectedTool;
@@ -52,7 +54,13 @@ public class AppController {
         shape.setStrokeType(StrokeType.OUTSIDE);
         shape.setStroke(Color.GREEN);
 
-        shape.setOnMouseClicked((e) -> selectShape(shape));
+        var savedSelectedTool = selectedTool;
+
+        shape.setOnMouseClicked((e) -> {
+            setSelectedTool(savedSelectedTool);
+            selectedToolChangingHandler.accept(savedSelectedTool);
+            selectShape(shape);
+        });
 
         List<Property> properties = selectedTool.getProperties();
         properties.stream().forEach((p) -> p.apply(shape));
@@ -73,5 +81,15 @@ public class AppController {
         }
         selectedShape = shape;
         selectedShape.setStrokeWidth(5);
+    }
+
+    public void updateProperitesOfSelectedShape() {
+        if (Objects.isNull(selectedShape)) {
+            return;
+        }
+    }
+
+    public void setOnToolChanged(Consumer<Tool> f) {
+        selectedToolChangingHandler = f;
     }
 }
