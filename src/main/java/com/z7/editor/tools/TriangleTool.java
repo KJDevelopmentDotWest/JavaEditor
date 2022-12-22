@@ -1,39 +1,23 @@
 package com.z7.editor.tools;
 
-import com.z7.editor.drawers.Drawer;
 import com.z7.editor.drawers.TriangleDrawer;
-import com.z7.editor.properties.AbstractProperty;
+import com.z7.editor.parameters.TriangleParameter;
 import com.z7.editor.properties.Property;
-import com.z7.shapes.Triangle;
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
+import com.z7.shapes.TriangleFigure;
 
 import java.util.List;
 
-public class TriangleTool extends AbstractTool<Triangle> {
+public class TriangleTool extends AbstractTool<TriangleFigure> {
     private final TriangleDrawer drawer = new TriangleDrawer();
+
+    public TriangleTool() {
+        figureParameter = new TriangleParameter();
+    }
 
     @Override
     public List<Property> getProperties() {
         var properties = cloneDefaultProperties();
 
         return properties;
-    }
-
-    @Override
-    public Drawer<Triangle> getDrawer() {
-        return drawer;
-    }
-
-    @Override
-    public Triangle createFigure() {
-        return null;
-    }
-
-    private static class TriangleSidesProperties extends AbstractProperty {
-        @Override
-        public Node getPanel() {
-            return new HBox();
-        }
     }
 }

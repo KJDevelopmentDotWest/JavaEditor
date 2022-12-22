@@ -17,23 +17,38 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 
-import java.io.*;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public class App extends Application {
+
+    private static ArrayList<Pair<String, Tool<?>>> availableTools;
+
+    static {
+        availableTools = new ArrayList<Pair<String, Tool<?>>>();
+
+        availableTools.add(new Pair<>("Circle", new CircleTool()));
+        availableTools.add(new Pair<>("Rectangle", new RectangleTool()));
+        availableTools.add(new Pair<>("Triangle", new TriangleTool()));
+    }
+
     @Override
     public void start(Stage primaryStage) {
         var controller = new AppController();
         var grid = createGrid();
         var tools = createTools();
+        var propertiesPane = new HBox();
         var figureSelectionContainer = new VBox();
+        controller.setPropertiesPane(propertiesPane);
 
         var figureSelection = new ChoiceBox<Pair<String, Tool<?>>>();
         figureSelectionContainer.getChildren().add(figureSelection);
@@ -41,6 +56,11 @@ public class App extends Application {
         figureSelection.setMinWidth(120);
 
         GridPane.setHalignment(figureSelection, HPos.CENTER);
+
+        controller.setOnToolChanged((tool) -> {
+            var variant =  availableTools.stream().filter((p) -> p.getValue() == tool).findFirst();
+            figureSelection.setValue(variant.get());
+        });
 
         figureSelection.setConverter(new StringConverter<>() {
             @Override
@@ -61,21 +81,24 @@ public class App extends Application {
         figureSelection.getItems().addAll(tools);
         figureSelection.setValue(tools.get(0));
 
+
         var drawingButton = new Button("Create");
-        figureSelectionContainer.getChildren().add(drawingButton);
+        var updatePropertiesButton = new Button("Update");
+        figureSelectionContainer.getChildren().add(new HBox(drawingButton, updatePropertiesButton));
+
+        updatePropertiesButton.setOnAction(e -> controller.updateProperitesOfSelectedShape());
 
         drawingButton.setOnAction((e) -> {
             controller.drawShape();
         });
 
-        var toolPalette = new HBox();
-        GridPane.setVgrow(toolPalette, Priority.ALWAYS);
+        GridPane.setVgrow(propertiesPane, Priority.ALWAYS);
 
         var canvas = new Pane();
         controller.setCanvas(canvas);
 
         grid.add(figureSelectionContainer, 0, 0);
-        grid.add(toolPalette, 1, 0);
+        grid.add(propertiesPane, 1, 0);
         grid.add(canvas, 0, 1, 2, 1);
 
         Scene scene = new Scene(grid);
@@ -124,13 +147,7 @@ public class App extends Application {
     }
 
     private static List<Pair<String, Tool<?>>> createTools() {
-        var tools = new ArrayList<Pair<String, Tool<?>>>();
-
-        tools.add(new Pair<>("Circle", new CircleTool()));
-        tools.add(new Pair<>("Rectangle", new RectangleTool()));
-        tools.add(new Pair<>("Triangle", new TriangleTool()));
-
-        return tools;
+        return availableTools;
     }
 
     public List<Plugin> loadAll() {

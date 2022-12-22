@@ -1,11 +1,8 @@
 package com.z7.editor.drawers;
 
 import com.z7.shapes.Figure;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.TriangleMesh;
-import javafx.scene.shape.VertexFormat;
 
 public class TriangleDrawer extends AbstractDrawer {
     @Override

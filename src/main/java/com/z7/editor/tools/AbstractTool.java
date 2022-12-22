@@ -1,26 +1,37 @@
 package com.z7.editor.tools;
 
+import com.z7.editor.parameters.FigureParameter;
 import com.z7.editor.properties.Position;
 import com.z7.editor.properties.Property;
 import com.z7.shapes.Figure;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractTool<T extends Figure> implements Tool<T> {
+    protected FigureParameter figureParameter;
     private static final List<Property> baseProperties = new ArrayList<>();
 
-    AbstractTool() {
+    static {
         baseProperties.add(new Position());
+    }
+
+    public Pane getParameterPanel() {
+        return figureParameter.getPanel();
     }
 
     @Override
     public List<Property> getProperties() {
-        var properties = new ArrayList<>(baseProperties);
-        return properties;
+        return cloneDefaultProperties();
+    }
+    public final Shape createShape() {
+        return figureParameter.createShape();
     }
 
     protected List<Property> cloneDefaultProperties() {
         return new ArrayList<>(baseProperties);
     }
+
 }
