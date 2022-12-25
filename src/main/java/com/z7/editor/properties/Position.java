@@ -1,7 +1,9 @@
 package com.z7.editor.properties;
 
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
@@ -12,12 +14,22 @@ public class Position extends AbstractProperty {
     private final TextField fieldY;
 
     public Position() {
-        panel = new HBox();
+        GridPane panel = new GridPane();
+        panel.setVgap(5);
+        panel.setHgap(5);
+
+        this.panel = panel;
+
         fieldX = new TextField();
         fieldY = new TextField();
 
-        panel.getChildren().add(fieldX);
-        panel.getChildren().add(fieldY);
+        Label fieldXLabel = new Label("X");
+        Label fieldYLabel = new Label("Y");
+
+        panel.add(fieldXLabel, 0, 0);
+        panel.add(fieldX, 1, 0);
+        panel.add(fieldYLabel, 0, 1);
+        panel.add(fieldY, 1, 1);
     }
 
     @Override
