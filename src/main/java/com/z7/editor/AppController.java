@@ -56,7 +56,7 @@ public class AppController {
         });
 
         List<Property> properties = selectedTool.getProperties();
-        properties.stream().forEach((p) -> p.apply(shape));
+        properties.forEach((p) -> p.apply(shape));
         canvas.getChildren().add(shape);
     }
 

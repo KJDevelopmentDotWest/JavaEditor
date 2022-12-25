@@ -31,10 +31,10 @@ import java.util.stream.Collectors;
 
 public class App extends Application {
 
-    private static final ArrayList<Pair<String, Tool<?>>> availableTools;
+    private static final ArrayList<Pair<String, Tool>> availableTools;
 
     static {
-        availableTools = new ArrayList<Pair<String, Tool<?>>>();
+        availableTools = new ArrayList<Pair<String, Tool>>();
 
         availableTools.add(new Pair<>("Circle", new CircleTool()));
         availableTools.add(new Pair<>("Rectangle", new RectangleTool()));
@@ -53,7 +53,7 @@ public class App extends Application {
         var figureSelectionContainer = new VBox();
         controller.setPropertiesPane(propertiesPane);
 
-        var figureSelection = new ChoiceBox<Pair<String, Tool<?>>>();
+        var figureSelection = new ChoiceBox<Pair<String, Tool>>();
         figureSelectionContainer.getChildren().add(figureSelection);
 
         figureSelection.setMinWidth(120);
@@ -67,12 +67,12 @@ public class App extends Application {
 
         figureSelection.setConverter(new StringConverter<>() {
             @Override
-            public String toString(Pair<String, Tool<?>> object) {
+            public String toString(Pair<String, Tool> object) {
                 return object.getKey();
             }
 
             @Override
-            public Pair<String, Tool<?>> fromString(String string) {
+            public Pair<String, Tool> fromString(String string) {
                 return null;
             }
         });
@@ -149,7 +149,7 @@ public class App extends Application {
         return grid;
     }
 
-    private static List<Pair<String, Tool<?>>> createTools() {
+    private static List<Pair<String, Tool>> createTools() {
         return availableTools;
     }
 
