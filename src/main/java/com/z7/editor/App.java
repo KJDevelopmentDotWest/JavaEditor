@@ -46,7 +46,10 @@ public class App extends Application {
         var controller = new AppController();
         var grid = createGrid();
         var tools = createTools();
+
         var propertiesPane = new HBox();
+        propertiesPane.setPadding(new Insets(10));
+
         var figureSelectionContainer = new VBox();
         controller.setPropertiesPane(propertiesPane);
 
