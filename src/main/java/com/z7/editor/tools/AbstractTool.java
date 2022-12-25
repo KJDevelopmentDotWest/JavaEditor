@@ -16,8 +16,8 @@ public abstract class AbstractTool<T extends Figure> implements Tool {
     static {
         baseProperties.add(new Position());
         baseProperties.add(new Rotation());
-        baseProperties.add(new Mirror());
         baseProperties.add(new Scaling());
+        baseProperties.add(new Mirror());
     }
 
     public Pane getParameterPanel() {

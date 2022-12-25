@@ -14,6 +14,7 @@ public class Mirror extends AbstractProperty {
 
     public Mirror() {
         GridPane panel = new GridPane();
+
         panel.setPadding(new Insets(5));
         panel.setVgap(5);
         panel.setHgap(5);
