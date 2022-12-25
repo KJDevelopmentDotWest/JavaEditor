@@ -4,16 +4,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
-public class Zoom extends AbstractProperty {
+public class Mirror extends AbstractProperty {
     private final Pane panel;
     private final CheckBox mirrorCheckbox;
 
-    public Zoom() {
+    public Mirror() {
         GridPane panel = new GridPane();
         panel.setPadding(new Insets(5));
         panel.setVgap(5);
