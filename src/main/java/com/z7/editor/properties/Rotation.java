@@ -33,7 +33,7 @@ public class Rotation extends AbstractProperty {
 
     @Override
     public void apply(Shape shape) {
-
+        shape.setRotate(getAngle());
     }
 
     protected Double getAngle() {
