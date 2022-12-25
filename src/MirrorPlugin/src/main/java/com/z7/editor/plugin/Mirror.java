@@ -1,5 +1,6 @@
-package com.z7.editor.properties;
+package com.z7.editor.plugin;
 
+import com.z7.editor.properties.AbstractProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;

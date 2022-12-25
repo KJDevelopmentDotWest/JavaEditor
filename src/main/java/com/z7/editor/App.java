@@ -1,7 +1,6 @@
 package com.z7.editor;
 
-
-import com.whatever.editor.api.Plugin;
+import com.z7.editor.api.Plugin;
 import com.z7.editor.io.PluginLoader;
 import com.z7.editor.tools.CircleTool;
 import com.z7.editor.tools.RectangleTool;
@@ -18,8 +17,17 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.jar.Manifest;
+import java.util.stream.Collectors;
 
 public class App extends Application {
 
@@ -109,6 +117,7 @@ public class App extends Application {
         primaryStage.show();
 
         plugins = pluginLoader.loadAll();
+        System.out.println(plugins);
     }
 
     public static void main(String[] args) {

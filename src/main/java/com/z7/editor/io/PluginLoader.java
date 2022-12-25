@@ -1,7 +1,7 @@
 package com.z7.editor.io;
 
-import com.whatever.editor.api.Plugin;
 import com.z7.editor.App;
+import com.z7.editor.api.Plugin;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -61,12 +61,15 @@ public class PluginLoader {
             Class<?> loadedClass = urlClassLoader.loadClass(mainClassName);
             return (Plugin) loadedClass.getDeclaredConstructor().newInstance();
         } catch (NullPointerException e) {
+            e.printStackTrace();
             throw new IllegalArgumentException("File is not found, Manifest is not found or Manifest does not contain Main-Class attribute");
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Main-Class attribute is invalid");
         } catch (ClassCastException e) {
+            e.printStackTrace();
             throw new IllegalArgumentException("Main class is not a Plugin");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalArgumentException();
         }
     }

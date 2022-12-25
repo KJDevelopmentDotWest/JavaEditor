@@ -1,4 +1,8 @@
 rootProject.name = 'JavaEditor'
 include 'src:RotationPlugin'
 findProject(':src:RotationPlugin')?.name = 'RotationPlugin'
+include 'src:ScalingPlugin'
+findProject(':src:ScalingPlugin')?.name = 'ScalingPlugin'
+include 'src:MirrorPlugin'
+findProject(':src:MirrorPlugin')?.name = 'MirrorPlugin'
 

@@ -5,7 +5,7 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
 }
 
-group 'com.z7.editor.plugin'
+group 'com.z7.editor'
 version '1.0'
 
 repositories {
