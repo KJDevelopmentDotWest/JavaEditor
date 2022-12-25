@@ -1,2 +1,4 @@
 rootProject.name = 'JavaEditor'
+include 'src:RotationPlugin'
+findProject(':src:RotationPlugin')?.name = 'RotationPlugin'
 
