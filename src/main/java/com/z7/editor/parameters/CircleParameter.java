@@ -2,6 +2,7 @@ package com.z7.editor.parameters;
 
 import com.z7.editor.drawers.CircleDrawer;
 import com.z7.shapes.CircleFigure;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -18,6 +19,7 @@ public class CircleParameter extends AbstractFigureParameter {
 
     public CircleParameter() {
         GridPane panel = new GridPane();
+        panel.setPadding(new Insets(5));
         panel.setVgap(5);
         panel.setHgap(5);
 

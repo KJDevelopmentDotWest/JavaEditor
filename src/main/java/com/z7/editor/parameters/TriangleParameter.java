@@ -1,5 +1,6 @@
 package com.z7.editor.parameters;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -14,6 +15,7 @@ public class TriangleParameter extends AbstractFigureParameter {
 
     public TriangleParameter() {
         GridPane panel = new GridPane();
+        panel.setPadding(new Insets(5));
         panel.setVgap(5);
         panel.setVgap(5);
 

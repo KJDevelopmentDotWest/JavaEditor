@@ -1,5 +1,6 @@
 package com.z7.editor.properties;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,6 +16,7 @@ public class Position extends AbstractProperty {
 
     public Position() {
         GridPane panel = new GridPane();
+        panel.setPadding(new Insets(5));
         panel.setVgap(5);
         panel.setHgap(5);
 
