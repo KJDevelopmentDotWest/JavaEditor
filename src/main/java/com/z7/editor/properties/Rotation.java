@@ -11,7 +11,7 @@ import javafx.scene.shape.Shape;
 public class Rotation extends AbstractProperty {
     private final Pane panel;
 
-    private TextField angleField;
+    private final TextField angleField;
 
     public Rotation() {
         GridPane panel = new GridPane();
