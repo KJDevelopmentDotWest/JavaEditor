@@ -1,5 +1,7 @@
 package com.z7.editor;
 
+import com.z7.editor.api.Plugin;
+import com.z7.editor.io.PluginLoader;
 import com.z7.editor.properties.Property;
 import com.z7.editor.tools.Tool;
 import javafx.scene.layout.Pane;
@@ -13,15 +15,25 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class AppController {
-    private Tool selectedTool = null;
+    private Tool selectedTool;
 
-    private Pane canvas = null;
+    private Pane canvas;
 
     private Pane propertiesPane;
 
     private Shape selectedShape;
 
     private Consumer<Tool> selectedToolChangingHandler;
+
+    private final List<Plugin> plugins;
+
+    private final List<Property> loadedProperties;
+
+    public AppController() {
+        var pluginLoader = PluginLoader.getInstance();
+        plugins = pluginLoader.loadAll();
+        loadedProperties = plugins.stream().map(Plugin::getProperty).toList();
+    }
 
     public void setSelectedTool(Tool selectedTool) {
         this.selectedTool = selectedTool;
@@ -32,9 +44,12 @@ public class AppController {
         propertiesPane.getChildren().add(constructionParams);
 
         List<Property> properties = selectedTool.getProperties();
-        var propertiesPanes = properties.stream().map((p) -> p.getPanel()).collect(Collectors.toList());
 
+        var propertiesPanes = properties.stream().map(Property::getPanel).toList();
         propertiesPane.getChildren().addAll(propertiesPanes);
+
+        var loadedPanes = loadedProperties.stream().map(Property::getPanel).toList();
+        propertiesPane.getChildren().addAll(loadedPanes);
     }
 
     public void setCanvas(Pane canvas) {
