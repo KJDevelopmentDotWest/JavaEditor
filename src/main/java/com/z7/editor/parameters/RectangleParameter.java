@@ -1,6 +1,8 @@
 package com.z7.editor.parameters;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -12,12 +14,22 @@ public class RectangleParameter extends AbstractFigureParameter {
     private TextField heightField;
 
     public RectangleParameter() {
-        panel = new HBox();
+        GridPane panel = new GridPane();
+        panel.setHgap(5);
+        panel.setVgap(5);
+
+        this.panel = panel;
+
         widthField = new TextField();
         heightField = new TextField();
 
-        panel.getChildren().add(widthField);
-        panel.getChildren().add(heightField);
+        Label widthLabel = new Label("Width:");
+        Label heightLabel = new Label("Height:");
+
+        panel.add(widthLabel, 0, 0);
+        panel.add(widthField, 1, 0);
+        panel.add(heightLabel, 0, 1);
+        panel.add(heightField, 1, 1);
     }
 
     @Override

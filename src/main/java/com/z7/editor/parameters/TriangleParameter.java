@@ -1,23 +1,33 @@
 package com.z7.editor.parameters;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 public class TriangleParameter extends AbstractFigureParameter {
-    private final TextField sideA;
-    private final TextField sideB;
+    private final TextField sideAField;
+    private final TextField sideBField;
     private final Pane panel;
 
     public TriangleParameter() {
-        panel = new HBox();
-        sideA = new TextField();
-        sideB = new TextField();
+        GridPane panel = new GridPane();
+        panel.setVgap(5);
+        panel.setVgap(5);
 
-        panel.getChildren().add(sideA);
-        panel.getChildren().add(sideB);
+        this.panel = panel;
+
+        sideAField = new TextField();
+        sideBField = new TextField();
+        Label sideALabel = new Label("Side A: ");
+        Label sideBLabel = new Label("Side B: ");
+
+        panel.add(sideALabel, 0, 0);
+        panel.add(sideAField, 1, 0);
+        panel.add(sideBLabel, 0, 1);
+        panel.add(sideBField, 1, 1);
     }
 
     @Override
@@ -32,10 +42,10 @@ public class TriangleParameter extends AbstractFigureParameter {
     }
 
     private Double getSideA() {
-        return Double.parseDouble(sideA.getCharacters().toString());
+        return Double.parseDouble(sideAField.getCharacters().toString());
     }
 
     private Double getSideB() {
-        return Double.parseDouble(sideB.getCharacters().toString());
+        return Double.parseDouble(sideBField.getCharacters().toString());
     }
 }
