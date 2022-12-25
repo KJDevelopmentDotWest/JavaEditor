@@ -85,7 +85,6 @@ public class AppController {
 
     public void updateProperitesOfSelectedShape() {
         if (Objects.isNull(selectedShape)) {
-            return;
         }
     }
 

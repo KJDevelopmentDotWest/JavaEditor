@@ -11,11 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
 public class CircleParameter extends AbstractFigureParameter {
-    private CircleDrawer drawer = new CircleDrawer();
+    private final CircleDrawer drawer = new CircleDrawer();
 
-    private Pane panel;
+    private final Pane panel;
 
-    private TextField radius;
+    private final TextField radius;
 
     public CircleParameter() {
         GridPane panel = new GridPane();

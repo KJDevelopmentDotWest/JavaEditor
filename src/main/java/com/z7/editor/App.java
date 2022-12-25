@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public class App extends Application {
 
-    private static ArrayList<Pair<String, Tool<?>>> availableTools;
+    private static final ArrayList<Pair<String, Tool<?>>> availableTools;
 
     static {
         availableTools = new ArrayList<Pair<String, Tool<?>>>();

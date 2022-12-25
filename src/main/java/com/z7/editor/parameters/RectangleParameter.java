@@ -10,9 +10,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class RectangleParameter extends AbstractFigureParameter {
-    private Pane panel;
-    private TextField widthField;
-    private TextField heightField;
+    private final Pane panel;
+    private final TextField widthField;
+    private final TextField heightField;
 
     public RectangleParameter() {
         GridPane panel = new GridPane();
