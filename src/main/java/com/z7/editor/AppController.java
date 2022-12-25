@@ -78,7 +78,11 @@ public class AppController {
 
     public void updatePropertiesOfSelectedShape() {
         if (Objects.isNull(selectedShape)) {
+            return;
         }
+
+        List<Property> properties = selectedTool.getProperties();
+        properties.forEach((p) -> p.apply(selectedShape));
     }
 
     public void setOnToolChanged(Consumer<Tool> f) {

@@ -8,25 +8,24 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
-public class Rotation extends AbstractProperty {
+public class Scaling extends AbstractProperty {
     private final Pane panel;
 
-    private final TextField angleField;
+    private final TextField scalingFactorField;
 
-    public Rotation() {
+    public Scaling() {
         GridPane panel = new GridPane();
-
         panel.setPadding(new Insets(5));
         panel.setHgap(5);
         panel.setVgap(5);
 
         this.panel = panel;
 
-        angleField = new TextField();
-        Label angleLabel = new Label("Angle:");
+        scalingFactorField = new TextField();
+        Label scalingFactorLabel = new Label("Scale: ");
 
-        panel.add(angleLabel, 0, 0);
-        panel.add(angleField, 1, 0);
+        panel.add(scalingFactorLabel, 0, 0);
+        panel.add(scalingFactorField, 1, 0);
     }
 
     @Override
@@ -36,10 +35,13 @@ public class Rotation extends AbstractProperty {
 
     @Override
     public void apply(Shape shape) {
-        shape.setRotate(getAngle());
+        double scalingFactor = getScalingFactor();
+
+        shape.setScaleX(scalingFactor);
+        shape.setScaleY(scalingFactor);
     }
 
-    protected Double getAngle() {
-        return Double.parseDouble(angleField.getCharacters().toString());
+    protected Double getScalingFactor() {
+        return Double.parseDouble(scalingFactorField.getCharacters().toString());
     }
 }
