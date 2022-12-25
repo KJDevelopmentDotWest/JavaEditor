@@ -2,23 +2,33 @@ package com.z7.editor.parameters;
 
 import com.z7.editor.drawers.CircleDrawer;
 import com.z7.shapes.CircleFigure;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
 public class CircleParameter extends AbstractFigureParameter {
-    private CircleDrawer drawer = new CircleDrawer();
+    private final CircleDrawer drawer = new CircleDrawer();
 
-    private Pane panel;
+    private final Pane panel;
 
-    private TextField radius;
+    private final TextField radius;
 
     public CircleParameter() {
-        panel = new HBox();
-        radius = new TextField();
+        GridPane panel = new GridPane();
+        panel.setPadding(new Insets(5));
+        panel.setVgap(5);
+        panel.setHgap(5);
 
-        panel.getChildren().add(radius);
+        this.panel = panel;
+
+        radius = new TextField();
+        Label label = new Label("Radius:");
+
+        panel.add(label, 0, 0);
+        panel.add(radius, 1, 0);
     }
 
     @Override

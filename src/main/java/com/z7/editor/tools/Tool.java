@@ -7,7 +7,7 @@ import javafx.scene.shape.Shape;
 
 import java.util.List;
 
-public interface Tool<T extends Figure> {
+public interface Tool {
     Pane getParameterPanel();
 
     List<Property> getProperties();

@@ -2,8 +2,6 @@ package com.z7.editor;
 
 import com.z7.editor.properties.Property;
 import com.z7.editor.tools.Tool;
-import javafx.event.EventDispatcher;
-import javafx.event.EventTarget;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -12,7 +10,6 @@ import javafx.scene.shape.StrokeType;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AppController {
@@ -40,10 +37,6 @@ public class AppController {
         propertiesPane.getChildren().addAll(propertiesPanes);
     }
 
-    public Pane getCanvas() {
-        return canvas;
-    }
-
     public void setCanvas(Pane canvas) {
         this.canvas = canvas;
     }
@@ -63,7 +56,7 @@ public class AppController {
         });
 
         List<Property> properties = selectedTool.getProperties();
-        properties.stream().forEach((p) -> p.apply(shape));
+        properties.forEach((p) -> p.apply(shape));
         canvas.getChildren().add(shape);
     }
 
@@ -83,9 +76,8 @@ public class AppController {
         selectedShape.setStrokeWidth(5);
     }
 
-    public void updateProperitesOfSelectedShape() {
+    public void updatePropertiesOfSelectedShape() {
         if (Objects.isNull(selectedShape)) {
-            return;
         }
     }
 

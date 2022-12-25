@@ -10,7 +10,7 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractTool<T extends Figure> implements Tool<T> {
+public abstract class AbstractTool<T extends Figure> implements Tool {
     protected FigureParameter figureParameter;
     private static final List<Property> baseProperties = new ArrayList<>();
 
