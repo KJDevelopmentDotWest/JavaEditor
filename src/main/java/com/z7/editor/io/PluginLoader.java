@@ -4,15 +4,16 @@ import com.z7.editor.App;
 import com.z7.editor.api.Plugin;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
@@ -43,35 +44,40 @@ public class PluginLoader {
     }
 
     public Plugin load(String filePath) {
+        Plugin result = null;
         if (!filePath.endsWith(".jar")){
             throw new IllegalArgumentException("File is not a jar");
         }
-        File file = new File(filePath);
-        URL url;
-        try {
-            url = file.toURI().toURL();
-        } catch (MalformedURLException e){
-            throw new IllegalArgumentException(e);
-        }
 
         ClassLoader pluginClassLoader = Plugin.class.getClassLoader();
-        try(URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url}, pluginClassLoader)){
-            Manifest manifest = new Manifest(urlClassLoader.findResource("META-INF/MANIFEST.MF").openStream());
-            String mainClassName = manifest.getMainAttributes().getValue("Main-Class").replaceAll(".java", "").replaceAll("/", ".");
-            Class<?> loadedClass = urlClassLoader.loadClass(mainClassName);
-            return (Plugin) loadedClass.getDeclaredConstructor().newInstance();
+        try (JarFile file = new JarFile(filePath);
+             URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{new URL("jar:file:" + filePath + "!/")}, pluginClassLoader)) {
+            Enumeration<JarEntry> entries = file.entries();
+
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.isDirectory() || !entry.getName().endsWith(".class") || entry.getName().equals("module-info.class")){
+                    continue;
+                }
+                String className = entry.getName().replaceAll(".class", "").replaceAll("/", ".");
+                Class<?> clazz = urlClassLoader.loadClass(className);
+                if (clazz.getDeclaredConstructor().newInstance() instanceof Plugin plugin){
+                    result = plugin;
+                }
+            }
+            if (Objects.nonNull(result)){
+                return result;
+            } else {
+                throw new IllegalArgumentException("Plugin class is not present");
+            }
         } catch (NullPointerException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException("File is not found, Manifest is not found or Manifest does not contain Main-Class attribute");
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Main-Class attribute is invalid");
         } catch (ClassCastException e) {
-            e.printStackTrace();
             throw new IllegalArgumentException("Main class is not a Plugin");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new IllegalArgumentException();
         }
     }
-
 }
