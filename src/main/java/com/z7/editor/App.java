@@ -30,7 +30,6 @@ import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 public class App extends Application {
-
     private static final ArrayList<Pair<String, Tool>> availableTools;
 
     static {
