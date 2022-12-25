@@ -3,6 +3,7 @@ package com.z7.editor.tools;
 import com.z7.editor.parameters.FigureParameter;
 import com.z7.editor.properties.Position;
 import com.z7.editor.properties.Property;
+import com.z7.editor.properties.Rotation;
 import com.z7.shapes.Figure;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
@@ -16,6 +17,7 @@ public abstract class AbstractTool<T extends Figure> implements Tool {
 
     static {
         baseProperties.add(new Position());
+        baseProperties.add(new Rotation());
     }
 
     public Pane getParameterPanel() {

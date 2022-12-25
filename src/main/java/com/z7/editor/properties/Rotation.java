@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
 public class Rotation extends AbstractProperty {
-    private Pane panel;
+    private final Pane panel;
 
     private TextField angleField;
 
@@ -20,10 +20,13 @@ public class Rotation extends AbstractProperty {
         panel.setHgap(5);
         panel.setVgap(5);
 
+        this.panel = panel;
+
         angleField = new TextField();
         Label angleLabel = new Label("Angle:");
 
-        this.panel = panel;
+        panel.add(angleLabel, 0, 0);
+        panel.add(angleField, 1, 0);
     }
 
     @Override
