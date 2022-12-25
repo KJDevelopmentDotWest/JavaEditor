@@ -89,7 +89,7 @@ public class App extends Application {
         var updatePropertiesButton = new Button("Update");
         figureSelectionContainer.getChildren().add(new HBox(drawingButton, updatePropertiesButton));
 
-        updatePropertiesButton.setOnAction(e -> controller.updateProperitesOfSelectedShape());
+        updatePropertiesButton.setOnAction(e -> controller.updatePropertiesOfSelectedShape());
 
         drawingButton.setOnAction((e) -> {
             controller.drawShape();

@@ -76,7 +76,7 @@ public class AppController {
         selectedShape.setStrokeWidth(5);
     }
 
-    public void updateProperitesOfSelectedShape() {
+    public void updatePropertiesOfSelectedShape() {
         if (Objects.isNull(selectedShape)) {
         }
     }
