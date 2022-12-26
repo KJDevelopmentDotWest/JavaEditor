@@ -72,6 +72,7 @@ public class AppController {
 
         List<Property> properties = selectedTool.getProperties();
         properties.forEach((p) -> p.apply(shape));
+        loadedProperties.forEach((p) -> p.apply(shape));
         canvas.getChildren().add(shape);
     }
 
@@ -98,6 +99,8 @@ public class AppController {
 
         List<Property> properties = selectedTool.getProperties();
         properties.forEach((p) -> p.apply(selectedShape));
+
+        loadedProperties.forEach((p) -> p.apply(selectedShape));
     }
 
     public void setOnToolChanged(Consumer<Tool> f) {
