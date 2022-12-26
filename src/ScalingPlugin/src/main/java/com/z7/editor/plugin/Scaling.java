@@ -38,8 +38,14 @@ public class Scaling extends AbstractProperty {
     public void apply(Shape shape) {
         double scalingFactor = getScalingFactor();
 
+        var currentScale = shape.getScaleY();
         shape.setScaleX(scalingFactor);
-        shape.setScaleY(scalingFactor);
+
+        if (currentScale < 0) {
+            shape.setScaleY(-scalingFactor);
+        } else {
+            shape.setScaleY(scalingFactor);
+        }
     }
 
     protected Double getScalingFactor() {
